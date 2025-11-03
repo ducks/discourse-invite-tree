@@ -38,6 +38,12 @@ Then rebuild your container:
 After installation, go to **Admin > Settings > Plugins > discourse-invite-tree**:
 
 - `invite_tree_enabled`: Enable or disable the invite tree feature (default: false)
+- `invite_tree_show_stats`: Show user statistics in the tree (default: true)
+
+To enable invite-only registration, use Discourse's native setting at **Admin >
+Settings > Login**:
+
+- `invite_only`: Restrict registration to invited users only
 
 ## Usage
 
