@@ -1,0 +1,16 @@
+plugins:
+  invite_tree_enabled:
+    default: false
+    client: true
+  invite_tree_registration_mode:
+    default: 'off'
+    client: true
+    type: enum
+    choices:
+      - off
+      - invite_only
+    description: 'Controls registration mode: off (normal Discourse registration), invite_only (only users with invites can register)'
+  invite_tree_show_stats:
+    default: true
+    client: true
+    description: 'Show user statistics (post count, trust level) in the invite tree'

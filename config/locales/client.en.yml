@@ -1,0 +1,17 @@
+en:
+  js:
+    invite_tree:
+      title: "Invite Tree"
+      description: "View how members joined this community"
+      total_members:
+        one: "%{count} member"
+        other: "%{count} members"
+      invited_by: "Invited by"
+      joined: "Joined"
+      invites: "Invites"
+      no_invites: "This user hasn't invited anyone yet"
+      expand: "Expand"
+      collapse: "Collapse"
+      root_users: "Founding Members"
+      loading: "Loading invite tree..."
+      error: "Unable to load invite tree"

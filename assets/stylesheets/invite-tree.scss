@@ -1,0 +1,90 @@
+.invite-tree-container {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+.invite-tree-header {
+  margin-bottom: 30px;
+
+  h1 {
+    margin-bottom: 10px;
+  }
+
+  .invite-tree-description {
+    color: var(--primary-medium);
+    font-size: 1.1em;
+  }
+
+  .invite-tree-stats {
+    margin-top: 10px;
+    color: var(--primary-high);
+  }
+}
+
+.invite-tree-roots {
+  h2 {
+    margin-bottom: 20px;
+    font-size: 1.3em;
+  }
+}
+
+.invite-tree-node {
+  font-family: monospace;
+  line-height: 1.6;
+  margin-bottom: 2px;
+}
+
+.invite-tree-node-content {
+  .tree-prefix {
+    color: var(--primary-medium);
+  }
+
+  .username {
+    color: var(--primary);
+    text-decoration: none;
+    font-weight: normal;
+
+    &:hover {
+      color: var(--tertiary);
+      text-decoration: underline;
+    }
+  }
+
+  .user-meta {
+    color: var(--primary-medium);
+    font-size: 1em;
+
+    .invite-count {
+      color: var(--tertiary);
+      font-weight: normal;
+    }
+  }
+}
+
+.invite-tree-empty {
+  text-align: center;
+  padding: 40px;
+  color: var(--primary-medium);
+  font-size: 1.1em;
+}
+
+// Responsive design
+@media (max-width: 768px) {
+  .invite-tree-container {
+    padding: 10px;
+  }
+
+  .invite-tree-node {
+    margin-left: 0 !important;
+  }
+
+  .invite-tree-node-content {
+    flex-direction: column;
+    align-items: flex-start;
+  }
+
+  .invite-tree-node-meta {
+    gap: 10px;
+  }
+}
