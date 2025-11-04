@@ -1,12 +1,12 @@
 plugins:
-  invite_tree_enabled:
+  invite_stats_enabled:
     default: false
     client: true
-  invite_tree_allowed_groups:
+  invite_stats_allowed_groups:
     default: ""
     type: group_list
-    description: 'Groups allowed to view the invite tree (leave empty to allow all logged-in users, staff always have access)'
-  invite_tree_show_stats:
+    description: 'Groups allowed to view invite stats (leave empty to allow all logged-in users, staff always have access)'
+  invite_stats_show_stats:
     default: true
     client: true
-    description: 'Show user statistics (post count, trust level) in the invite tree'
+    description: 'Show user statistics (post count, trust level) in the invite stats'

@@ -1,4 +1,4 @@
-# Discourse Invite Tree
+# Discourse Invite Stats
 
 A Discourse plugin that visualizes user invite relationships in a clean ASCII
 tree format, showing how members invited each other to join the community.
@@ -24,7 +24,7 @@ hooks:
     - exec:
         cd: $home/plugins
         cmd:
-          - git clone https://github.com/ducks/discourse-invite-tree.git
+          - git clone https://github.com/ducks/discourse-invite-stats.git
 ```
 
 Then rebuild your container:
@@ -35,17 +35,17 @@ Then rebuild your container:
 
 ## Configuration
 
-After installation, go to **Admin > Settings > Plugins > discourse-invite-tree**:
+After installation, go to **Admin > Settings > Plugins > discourse-invite-stats**:
 
-- `invite_tree_enabled`: Enable or disable the invite tree feature (default: false)
-- `invite_tree_allowed_groups`: Groups allowed to view the invite tree (default: empty, allows all logged-in users, staff always have access)
-- `invite_tree_show_stats`: Show user statistics in the tree (default: true)
+- `invite_stats_enabled`: Enable or disable the invite tree feature (default: false)
+- `invite_stats_allowed_groups`: Groups allowed to view the invite tree (default: empty, allows all logged-in users, staff always have access)
+- `invite_stats_show_stats`: Show user statistics in the tree (default: true)
 
 ### Access Control
 
 By default, all logged-in users can view the invite tree. You can restrict access by:
 
-1. Adding groups to the `invite_tree_allowed_groups` setting
+1. Adding groups to the `invite_stats_allowed_groups` setting
 2. Only users in those groups (or staff) will have access
 3. Leave empty to allow all logged-in users
 
@@ -58,7 +58,7 @@ Settings > Login**:
 
 ## Usage
 
-Once enabled, the invite tree is accessible at `/invites/tree` on your forum.
+Once enabled, the invite tree is accessible at `/invite-stats` on your forum.
 
 The tree shows:
 - Usernames with links to profiles
@@ -99,7 +99,7 @@ The plugin uses Discourse's native invite system:
 1. Clone to your Discourse plugins directory:
    ```bash
    cd ~/discourse/plugins
-   git clone https://github.com/ducks/discourse-invite-tree.git
+   git clone https://github.com/ducks/discourse-invite-stats.git
    ```
 
 2. Start your development Discourse instance
@@ -112,7 +112,7 @@ Generate test invite tree data:
 
 ```bash
 cd ~/discourse
-bin/rails runner plugins/discourse-invite-tree/scripts/create-test-data.rb
+bin/rails runner plugins/discourse-invite-stats/scripts/create-test-data.rb
 ```
 
 This creates 16 test users with a 3-generation invite tree.
@@ -120,7 +120,7 @@ This creates 16 test users with a 3-generation invite tree.
 ### File Structure
 
 ```
-discourse-invite-tree/
+discourse-invite-stats/
 ├── plugin.rb                          # Main plugin file
 ├── config/
 │   ├── locales/
@@ -129,17 +129,17 @@ discourse-invite-tree/
 │   └── settings.yml                   # Plugin settings
 ├── app/
 │   ├── controllers/
-│   │   └── invite_tree_controller.rb  # Backend API with recursive SQL
+│   │   └── invite_stats_controller.rb  # Backend API with recursive SQL
 │   └── serializers/
-│       └── invite_tree_serializer.rb  # JSON serialization
+│       └── invite_stats_serializer.rb  # JSON serialization
 ├── assets/
 │   ├── javascripts/discourse/
-│   │   ├── routes/invite-tree.js      # Route definition
-│   │   ├── templates/invite-tree.gjs  # Main template
+│   │   ├── routes/invite-stats.js      # Route definition
+│   │   ├── templates/invite-stats.gjs  # Main template
 │   │   ├── components/
 │   │   │   └── invite-tree-node.gjs   # Recursive tree node component
-│   │   └── discourse-invite-tree-route-map.js
-│   └── stylesheets/invite-tree.scss   # Minimal styling
+│   │   └── discourse-invite-stats-route-map.js
+│   └── stylesheets/invite-stats.scss   # Minimal styling
 └── scripts/
     └── create-test-data.rb            # Test data generator
 ```

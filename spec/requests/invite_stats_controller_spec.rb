@@ -2,19 +2,19 @@
 
 require "rails_helper"
 
-describe DiscourseInviteTree::InviteTreeController do
+describe DiscourseInviteStats::InviteStatsController do
   fab!(:user) { Fabricate(:user) }
   fab!(:admin) { Fabricate(:admin) }
   fab!(:group) { Fabricate(:group) }
 
   before do
-    SiteSetting.invite_tree_enabled = true
+    SiteSetting.invite_stats_enabled = true
   end
 
   describe "#index" do
     context "when not logged in" do
       it "returns 403" do
-        get "/invite-tree.json"
+        get "/invite-stats.json"
         expect(response.status).to eq(403)
       end
     end
@@ -26,11 +26,11 @@ describe DiscourseInviteTree::InviteTreeController do
 
       context "with no group restrictions" do
         before do
-          SiteSetting.invite_tree_allowed_groups = ""
+          SiteSetting.invite_stats_allowed_groups = ""
         end
 
         it "allows access" do
-          get "/invite-tree.json"
+          get "/invite-stats.json"
           expect(response.status).to eq(200)
           json = JSON.parse(response.body)
           expect(json).to have_key("roots")
@@ -41,17 +41,17 @@ describe DiscourseInviteTree::InviteTreeController do
 
       context "with group restrictions" do
         before do
-          SiteSetting.invite_tree_allowed_groups = "#{group.name}"
+          SiteSetting.invite_stats_allowed_groups = "#{group.name}"
         end
 
         it "denies access when user not in group" do
-          get "/invite-tree.json"
+          get "/invite-stats.json"
           expect(response.status).to eq(403)
         end
 
         it "allows access when user in group" do
           group.add(user)
-          get "/invite-tree.json"
+          get "/invite-stats.json"
           expect(response.status).to eq(200)
         end
       end
@@ -60,11 +60,11 @@ describe DiscourseInviteTree::InviteTreeController do
     context "when logged in as admin" do
       before do
         sign_in(admin)
-        SiteSetting.invite_tree_allowed_groups = "some_other_group"
+        SiteSetting.invite_stats_allowed_groups = "some_other_group"
       end
 
       it "allows access regardless of group restrictions" do
-        get "/invite-tree.json"
+        get "/invite-stats.json"
         expect(response.status).to eq(200)
       end
     end
@@ -75,7 +75,7 @@ describe DiscourseInviteTree::InviteTreeController do
       end
 
       it "includes all expected fields" do
-        get "/invite-tree.json"
+        get "/invite-stats.json"
         json = JSON.parse(response.body)
 
         expect(json).to have_key("roots")

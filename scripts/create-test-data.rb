@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
 # Script to create test users with invite relationships
-# Run with: rails runner plugins/discourse-invite-tree/scripts/create-test-data.rb
+# Run with: rails runner plugins/discourse-invite-stats/scripts/create-test-data.rb
 
 puts "Creating test invite tree data..."
 
@@ -145,4 +145,4 @@ puts "  Grace: 3 invites (3 problematic) - Will show in accountability report"
 puts "  Rachel: 2 invites (1 problematic)"
 puts "\nTotal users created: #{User.where("username LIKE 'test_%'").count}"
 puts "\nProblematic users marked with suspensions, silences, or flags"
-puts "View at: /invites/tree"
+puts "View at: /invite-stats"

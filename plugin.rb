@@ -1,25 +1,25 @@
 # frozen_string_literal: true
 
-# name: discourse-invite-tree
-# about: Public invite tree visualization with invite-only registration mode
-# version: 0.1.0
+# name: discourse-invite-stats
+# about: Invite statistics and accountability tracking with tree visualization
+# version: 0.2.0
 # authors: Jake Goldsborough
-# url: https://github.com/ducks/discourse-invite-tree
+# url: https://github.com/ducks/discourse-invite-stats
 
-enabled_site_setting :invite_tree_enabled
+enabled_site_setting :invite_stats_enabled
 
-register_asset "stylesheets/invite-tree.scss"
+register_asset "stylesheets/invite-stats.scss"
 
 after_initialize do
-  module ::DiscourseInviteTree
-    PLUGIN_NAME = "discourse-invite-tree"
+  module ::DiscourseInviteStats
+    PLUGIN_NAME = "discourse-invite-stats"
   end
 
-  require_relative "app/controllers/invite_tree_controller"
-  require_relative "app/serializers/invite_tree_serializer"
+  require_relative "app/controllers/invite_stats_controller"
+  require_relative "app/serializers/invite_stats_serializer"
 
   Discourse::Application.routes.append do
-    get "/invite-tree" => "discourse_invite_tree/invite_tree#index"
-    get "/invite-tree.json" => "discourse_invite_tree/invite_tree#tree_data"
+    get "/invite-stats" => "discourse_invite_stats/invite_stats#index"
+    get "/invite-stats.json" => "discourse_invite_stats/invite_stats#index"
   end
 end

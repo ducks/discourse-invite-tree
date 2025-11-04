@@ -1,7 +1,7 @@
 # frozen_string_literal: true
 
-class ::DiscourseInviteTree::InviteTreeController < ::ApplicationController
-  requires_plugin DiscourseInviteTree::PLUGIN_NAME
+class ::DiscourseInviteStats::InviteStatsController < ::ApplicationController
+  requires_plugin DiscourseInviteStats::PLUGIN_NAME
 
   before_action :ensure_logged_in
   before_action :check_access
@@ -17,7 +17,7 @@ class ::DiscourseInviteTree::InviteTreeController < ::ApplicationController
   private
 
   def check_access
-    allowed_group_names = SiteSetting.invite_tree_allowed_groups.split("|")
+    allowed_group_names = SiteSetting.invite_stats_allowed_groups.split("|")
 
     return if current_user.staff?
     return if allowed_group_names.empty? # If no groups specified, allow all logged in users
@@ -27,15 +27,15 @@ class ::DiscourseInviteTree::InviteTreeController < ::ApplicationController
 
     if !has_access
       raise Discourse::InvalidAccess.new(
-        "You need to be in one of these groups to view the invite tree: #{allowed_group_names.join(', ')}",
+        "You need to be in one of these groups to view invite stats: #{allowed_group_names.join(', ')}",
         nil,
-        custom_message: "invite_tree.access_denied"
+        custom_message: "invite_stats.access_denied"
       )
     end
   end
 
   def cached_invite_tree
-    Rails.cache.fetch("invite_tree_v1", expires_in: 1.hour) do
+    Rails.cache.fetch("invite_stats_v1", expires_in: 1.hour) do
       build_invite_tree
     end
   end

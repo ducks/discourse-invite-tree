@@ -1,6 +1,6 @@
 en:
   js:
-    invite_tree:
+    invite_stats:
       title: "Invite Tree"
       description: "View how members joined this community"
       total_members:

@@ -1,23 +1,23 @@
-.invite-tree-container {
+.invite-stats-container {
   max-width: 1200px;
   margin: 0 auto;
   padding: 20px;
 }
 
-.invite-tree-header {
+.invite-stats-header {
   margin-bottom: 20px;
 
   h1 {
     margin-bottom: 10px;
   }
 
-  .invite-tree-description {
+  .invite-stats-description {
     color: var(--primary-medium);
     font-size: 1.1em;
   }
 }
 
-.invite-tree-summary {
+.invite-stats-summary {
   margin-bottom: 30px;
   padding: 20px;
   background: var(--primary-very-low);
@@ -52,7 +52,7 @@
   }
 }
 
-.invite-tree-problematic {
+.invite-stats-problematic {
   margin-bottom: 30px;
   padding: 20px;
   background: var(--danger-low);
@@ -112,20 +112,20 @@
   }
 }
 
-.invite-tree-roots {
+.invite-stats-roots {
   h2 {
     margin-bottom: 20px;
     font-size: 1.3em;
   }
 }
 
-.invite-tree-node {
+.invite-stats-node {
   font-family: monospace;
   line-height: 1.6;
   margin-bottom: 2px;
 }
 
-.invite-tree-node-content {
+.invite-stats-node-content {
   .tree-prefix {
     color: var(--primary-medium);
   }
@@ -180,7 +180,7 @@
   }
 }
 
-.invite-tree-empty {
+.invite-stats-empty {
   text-align: center;
   padding: 40px;
   color: var(--primary-medium);
@@ -189,20 +189,20 @@
 
 // Responsive design
 @media (max-width: 768px) {
-  .invite-tree-container {
+  .invite-stats-container {
     padding: 10px;
   }
 
-  .invite-tree-node {
+  .invite-stats-node {
     margin-left: 0 !important;
   }
 
-  .invite-tree-node-content {
+  .invite-stats-node-content {
     flex-direction: column;
     align-items: flex-start;
   }
 
-  .invite-tree-node-meta {
+  .invite-stats-node-meta {
     gap: 10px;
   }
 }

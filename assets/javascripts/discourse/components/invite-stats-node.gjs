@@ -6,7 +6,7 @@ import formatDate from "discourse/helpers/format-date";
 import icon from "discourse-common/helpers/d-icon";
 import { htmlSafe } from "@ember/template";
 
-export default class InviteTreeNode extends Component {
+export default class InviteStatsNode extends Component {
   @service siteSettings;
 
   get hasChildren() {
@@ -41,8 +41,8 @@ export default class InviteTreeNode extends Component {
   };
 
   <template>
-    <div class="invite-tree-node">
-      <div class="invite-tree-node-content">
+    <div class="invite-stats-node">
+      <div class="invite-stats-node-content">
         <span class="tree-prefix">{{this.treePrefix}}</span>
         <a href="/u/{{@user.username}}" class="username">{{@user.username}}</a>
         <span class="user-meta">
@@ -76,7 +76,7 @@ export default class InviteTreeNode extends Component {
 
       {{#if this.hasChildren}}
         {{#each @user.children as |child index|}}
-          <InviteTreeNode
+          <InviteStatsNode
             @user={{child}}
             @depth={{this.nextDepth}}
             @isLast={{this.isLastChild index}} />
