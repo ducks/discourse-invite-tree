@@ -1,8 +1,8 @@
 en:
   js:
     invite_stats:
-      title: "Invite Tree"
-      description: "View how members joined this community"
+      title: "Invite Stats"
+      description: "Invite statistics and accountability tracking"
       total_members:
         one: "%{count} member"
         other: "%{count} members"

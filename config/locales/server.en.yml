@@ -1,4 +1,4 @@
 en:
   invite_stats:
-    title: "Invite Tree"
-    access_denied: "You don't have permission to view the invite tree"
+    title: "Invite Stats"
+    access_denied: "You don't have permission to view invite stats"

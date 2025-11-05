@@ -1,18 +1,28 @@
 # Discourse Invite Stats
 
-A Discourse plugin that visualizes user invite relationships in a clean ASCII
-tree format, showing how members invited each other to join the community.
+A Discourse plugin for tracking invite statistics and accountability. Shows who invited whom, displays moderation metrics, and helps identify problematic inviters through quality scores and success rate tracking.
 
-![Invite Tree Screenshot](screenshot.png)
+![Accountability Report](invite-stats-table.png)
+*Accountability Report showing problematic inviters*
+
+![Invite Tree Visualization](invite-stats-tree.png)
+*ASCII tree with moderation indicators*
 
 ## Features
 
-- Clean ASCII tree visualization (Lobsters-style)
-- Shows invite hierarchy from founding members down through all generations
-- Displays join dates and invite counts
-- Handles both invite-only and open registration communities
-- Simple, hackable design using monospace font and tree characters
-- Fully responsive
+**Accountability & Moderation:**
+- Invite quality scores (percentage of non-problematic invites)
+- Problematic inviter detection (3+ bad invites or <70% success rate)
+- Community-wide summary statistics
+- Moderation indicators (suspended, silenced, flagged users)
+- Track invite success rates over time
+
+**Visualization:**
+- Clean ASCII tree showing invite hierarchy
+- Lobsters-style tree characters
+- Join dates and invite counts
+- Works with invite-only or open registration
+- Fully responsive design
 
 ## Installation
 
@@ -37,13 +47,13 @@ Then rebuild your container:
 
 After installation, go to **Admin > Settings > Plugins > discourse-invite-stats**:
 
-- `invite_stats_enabled`: Enable or disable the invite tree feature (default: false)
-- `invite_stats_allowed_groups`: Groups allowed to view the invite tree (default: empty, allows all logged-in users, staff always have access)
-- `invite_stats_show_stats`: Show user statistics in the tree (default: true)
+- `invite_stats_enabled`: Enable or disable invite stats (default: false)
+- `invite_stats_allowed_groups`: Groups allowed to view invite stats (default: empty, allows all logged-in users, staff always have access)
+- `invite_stats_show_stats`: Show user statistics (default: true)
 
 ### Access Control
 
-By default, all logged-in users can view the invite tree. You can restrict access by:
+By default, all logged-in users can view invite stats. You can restrict access by:
 
 1. Adding groups to the `invite_stats_allowed_groups` setting
 2. Only users in those groups (or staff) will have access
@@ -58,39 +68,49 @@ Settings > Login**:
 
 ## Usage
 
-Once enabled, the invite tree is accessible at `/invite-stats` on your forum.
+Once enabled, invite stats are accessible at `/invite-stats` on your forum.
 
-The tree shows:
+The page displays three main sections:
+
+### 1. Community Overview
+Summary statistics showing:
+- Total users and inviters
+- Total invites sent
+- Number of problematic invites
+- Overall success rate
+
+### 2. Accountability Report
+Prominently displays users who invited problematic members:
+- Users who invited 3+ problematic users, OR
+- Users with <70% success rate and 5+ invites
+- Shows total invites, problematic count, and quality score
+- Helps moderators identify patterns and review invite privileges
+
+### 3. Invite Tree Visualization
+ASCII tree showing the complete invite hierarchy:
 - Usernames with links to profiles
-- Join dates
-- Number of invites each user has made (in brackets)
-- ASCII tree lines showing parent-child relationships
-- Moderation indicators (suspended, silenced, flagged users)
-- Invite quality scores for accountability
+- Join dates and invite counts
+- Tree structure showing who invited whom
+- Moderation indicators: 🚫 suspended, 🔇 silenced, ⚠️ flagged
+- Quality scores for users with invites
+- Problematic invite counts
 
-Users without an inviter (founding members or self-registered users) appear at
-the root level.
-
-### Moderation Features
-
-The invite tree includes accountability metrics to help identify problematic
-inviters:
-
-- **Invite Quality Score**: Percentage of invites that didn't result in suspended/silenced/flagged users
-- **Problematic Invites Count**: Number of invited users who were suspended, silenced, or have 3+ agreed flags
-- **Problematic Inviters List**: Users who invited 3+ problematic users OR have <70% success rate with 5+ invites
-- **Summary Statistics**: Overall invite success rates and totals
-
-This data helps moderators identify users who consistently invite problematic
-members and may need their invite privileges reviewed.
+**What counts as problematic?**
+A user is considered problematic if they are:
+- Suspended
+- Silenced
+- Have 3+ agreed flags from moderators
 
 ## How It Works
 
 The plugin uses Discourse's native invite system:
 - Queries the `invited_users` and `invites` tables
+- Joins with `user_stats` for moderation data (flags, suspensions, silences)
+- Calculates invite quality scores based on problematic user ratios
 - Builds a recursive tree structure from invite relationships
-- Displays only active, non-suspended users
-- Root users are anyone without an inviter (founders or self-signups)
+- Includes all users (even problematic ones) for accountability visibility
+- Caches results for 1 hour for performance
+- Limited to 5000 users for safety on large sites
 
 ## Development
 
@@ -108,49 +128,27 @@ The plugin uses Discourse's native invite system:
 
 ### Test Data
 
-Generate test invite tree data:
+Generate test invite data with moderation scenarios:
 
 ```bash
 cd ~/discourse
 bin/rails runner plugins/discourse-invite-stats/scripts/create-test-data.rb
 ```
 
-This creates 16 test users with a 3-generation invite tree.
-
-### File Structure
-
-```
-discourse-invite-stats/
-├── plugin.rb                          # Main plugin file
-├── config/
-│   ├── locales/
-│   │   ├── client.en.yml             # Frontend translations
-│   │   └── server.en.yml             # Backend translations
-│   └── settings.yml                   # Plugin settings
-├── app/
-│   ├── controllers/
-│   │   └── invite_stats_controller.rb  # Backend API with recursive SQL
-│   └── serializers/
-│       └── invite_stats_serializer.rb  # JSON serialization
-├── assets/
-│   ├── javascripts/discourse/
-│   │   ├── routes/invite-stats.js      # Route definition
-│   │   ├── templates/invite-stats.gjs  # Main template
-│   │   ├── components/
-│   │   │   └── invite-tree-node.gjs   # Recursive tree node component
-│   │   └── discourse-invite-stats-route-map.js
-│   └── stylesheets/invite-stats.scss   # Minimal styling
-└── scripts/
-    └── create-test-data.rb            # Test data generator
-```
+This creates 40+ test users with:
+- Multiple generations of invite relationships
+- Suspended, silenced, and flagged users
+- Variety of quality scores (from 0% to 100%)
+- Problematic inviters that trigger accountability alerts
 
 ## Customization
 
 The plugin is designed to be easily customizable:
 
-- **Styling**: Override `.invite-tree-node` CSS classes
-- **Tree characters**: Modify `treePrefix` getter in `invite-tree-node.gjs`
-- **Display format**: Edit the component template to show different data
+- **Styling**: Override `.invite-stats-*` CSS classes
+- **Tree characters**: Modify `treePrefix` getter in `invite-stats-node.gjs`
+- **Thresholds**: Adjust problematic inviter detection criteria in controller
+- **Display format**: Edit component templates to show different data
 - **Color scheme**: Uses Discourse CSS variables, adapts to themes automatically
 
 ## License
