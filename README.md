@@ -45,9 +45,20 @@ Then rebuild your container:
 
 After installation, go to **Admin > Settings > Plugins > discourse-invite-stats**:
 
+### Basic Settings
 - `invite_stats_enabled`: Enable or disable invite stats (default: false)
 - `invite_stats_allowed_groups`: Groups allowed to view invite stats (default: empty, allows all logged-in users, staff always have access)
 - `invite_stats_show_stats`: Show user statistics (default: true)
+
+### Threshold Settings
+Configure when users are flagged as problematic inviters:
+
+- `invite_stats_problematic_threshold`: Number of problematic invites before flagging (default: 3, range: 1-10)
+- `invite_stats_quality_threshold`: Minimum quality score percentage before flagging (default: 70, range: 0-100)
+- `invite_stats_min_invites_for_quality`: Minimum invites required before quality score applies (default: 5, range: 1-20)
+- `invite_stats_flags_threshold`: Number of agreed flags to mark a user as problematic (default: 3, range: 1-10)
+
+These settings allow you to customize problematic inviter detection to match your community's moderation standards.
 
 ### Access Control
 
@@ -79,10 +90,11 @@ Summary statistics showing:
 
 ### 2. Accountability Report
 Prominently displays users who invited problematic members:
-- Users who invited 3+ problematic users, OR
-- Users with <70% success rate and 5+ invites
+- Users who invited too many problematic users (configurable threshold)
+- Users with low quality scores when they have enough invites (configurable thresholds)
 - Shows total invites, problematic count, and quality score
 - Helps moderators identify patterns and review invite privileges
+- Thresholds can be customized in plugin settings
 
 ### 3. Invite Tree Visualization
 ASCII tree showing the complete invite hierarchy:
@@ -97,7 +109,7 @@ ASCII tree showing the complete invite hierarchy:
 A user is considered problematic if they are:
 - Suspended
 - Silenced
-- Have 3+ agreed flags from moderators
+- Have enough agreed flags from moderators (configurable threshold, default: 3)
 
 ## How It Works
 
@@ -145,7 +157,7 @@ The plugin is designed to be easily customizable:
 
 - **Styling**: Override `.invite-stats-*` CSS classes
 - **Tree characters**: Modify `treePrefix` getter in `invite-stats-node.gjs`
-- **Thresholds**: Adjust problematic inviter detection criteria in controller
+- **Thresholds**: Configure in Admin > Settings > Plugins (no code changes needed)
 - **Display format**: Edit component templates to show different data
 - **Color scheme**: Uses Discourse CSS variables, adapts to themes automatically
 
