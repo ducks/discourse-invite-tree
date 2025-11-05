@@ -2,10 +2,8 @@
 
 A Discourse plugin for tracking invite statistics and accountability. Shows who invited whom, displays moderation metrics, and helps identify problematic inviters through quality scores and success rate tracking.
 
-*Accountability Report showing problematic inviters*
 ![Accountability Report](invite-stats-table.png)
 
-*ASCII tree with moderation indicators*
 ![Invite Tree Visualization](invite-stats-tree.png)
 
 ## Features
